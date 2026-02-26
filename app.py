@@ -36,7 +36,7 @@ CHUNK_SIZE = 1024 * 1024  # 1 MB
 
 @app.get("/stream/{filename}")
 async def stream_video(request: Request, filename: str):
-    file_path = os.path.join(NAS_DIR, filename)
+    file_path = os.path.join(MEDIA_DIR, filename)
 
     if not os.path.isfile(file_path):
         raise HTTPException(status_code=404, detail="File not found")
