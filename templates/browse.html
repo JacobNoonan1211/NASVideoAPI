@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NAS Videos</title>
+
+</head>
+<body>
+    <h2>NAS Videos</h2>
+
+    <div>
+        Current: /{{ path }}
+    </div>
+
+    {% if path %}
+        <div><a href="/browse?path={{ quote(parent_path) }}"> Back to Parent </a></div>
+    {% endif %}
+
+    <ul>
+        {% for item in items %}
+            {% if item.type == "dir" %}
+                <li>
+                    <a href="/browse?path={{ quote(item.browse_path) }}">{{ item.name }}</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ item.watch_url }}">{{ item.name }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</body>
+</html>
