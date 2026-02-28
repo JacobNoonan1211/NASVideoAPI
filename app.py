@@ -53,7 +53,6 @@ async def browse(request: Request, path: str = ""):
                 "type": "file",
                 "name": p.name,
                 "rel": rel,
-                # URL-safe path for linking
                 "watch_url": f"/watch/{quote(rel)}",
             })
 
