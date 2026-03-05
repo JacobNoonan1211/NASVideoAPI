@@ -2,32 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NAS Videos</title>
-
+    <title>NAS Media — {{ path or "Home" }}</title>
 </head>
 <body>
-    <h2>NAS Videos</h2>
-
-    <div>
-        Current: /{{ path }}
-    </div>
+    <h2>NAS Media</h2>
+    <p>Current: /{{ path or "" }}</p>
 
     {% if path %}
-        <div><a href="/browse?path={{ quote(parent_path) }}"> Back to Parent </a></div>
+        <p><a href="/browse?path={{ quote(parent_path) }}">← Back</a></p>
     {% endif %}
 
-    <ul>
-        {% for item in items %}
-            {% if item.type == "dir" %}
-                <li>
-                    <a href="/browse?path={{ quote(item.browse_path) }}">{{ item.name }}</a>
-                </li>
-            {% else %}
-                <li>
-                    <a href="{{ item.watch_url }}">{{ item.name }}</a>
-                </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+    {% set folders = items | selectattr("type", "equalto", "dir") | list %}
+    {% if folders %}
+        <h3>Folders</h3>
+        <ul>
+            {% for item in folders %}
+                <li><a href="/browse?path={{ quote(item.browse_path) }}">{{ item.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% set videos = items | selectattr("type", "equalto", "video") | list %}
+    {% if videos %}
+        <h3>Videos ({{ videos | length }})</h3>
+        <ul>
+            {% for item in videos %}
+                <li><a href="{{ item.watch_url }}">{{ item.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% set photos = items | selectattr("type", "equalto", "photo") | list %}
+    {% if photos %}
+        <h3>Photos ({{ photos | length }})</h3>
+        <ul>
+            {% for item in photos %}
+                <li><a href="{{ item.watch_url }}">{{ item.name }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if not folders and not videos and not photos %}
+        <p>This folder is empty.</p>
+    {% endif %}
 </body>
 </html>
