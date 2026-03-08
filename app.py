@@ -6,6 +6,9 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from urllib.parse import quote
+from fastapi.staticfiles import StaticFiles
+
+
 
 BASE_DIR = Path(__file__).resolve().parent
 TEMPLATES_DIR = BASE_DIR / "templates"
@@ -28,6 +31,9 @@ PHOTO_MIME_TYPES = {
 }
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
 
 templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 

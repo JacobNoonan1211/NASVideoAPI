@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>NAS Media — {{ path or "Home" }}</title>
+    <link rel="manifest" href="/static/manifest.json">
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/static/sw.js');
+      }
+    </script>
 </head>
 <body>
     <h2>NAS Media</h2>
